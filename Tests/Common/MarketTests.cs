@@ -34,5 +34,12 @@ namespace QuantConnect.Tests.Common
                 Assert.AreEqual(market, decoded);
             }
         }
+
+        [Test]
+        public void MaintainsStableEuropeanVenueIdentifiers()
+        {
+            Assert.AreEqual(27, Market.Encode(Market.LSE));
+            Assert.AreEqual(28, Market.Encode(Market.XETRA));
+        }
     }
 }
