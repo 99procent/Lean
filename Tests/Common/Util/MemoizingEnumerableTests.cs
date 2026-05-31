@@ -1,4 +1,4 @@
-﻿/*
+/*
  * QUANTCONNECT.COM - Democratizing Finance, Empowering Individuals.
  * Lean Algorithmic Trading Engine v2.0. Copyright 2014 QuantConnect Corporation.
  * 
@@ -13,6 +13,7 @@
  * limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -49,6 +50,15 @@ namespace QuantConnect.Tests.Common.Util
             var memoized = new MemoizingEnumerable<int>(enumerable);
             // enumerating memoized twice shouldn't matter
             CollectionAssert.AreEqual(memoized.ToList(), memoized.ToList());
+        }
+
+        [Test]
+        public void GetsCount()
+        {
+            var list = new List<int> {1, 2, 3, 4, 5};
+            var memoized = new MemoizingEnumerable<int>(list);
+            Assert.AreEqual(5, memoized.Count);
+            Assert.AreEqual(memoized.Count, memoized.ToList().Count);
         }
     }
 }
