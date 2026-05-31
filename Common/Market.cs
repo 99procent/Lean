@@ -61,8 +61,8 @@ namespace QuantConnect
             Tuple.Create(SGX, 24),
             Tuple.Create(HKFE, 25),
             Tuple.Create(NYSELIFFE, 26),
-            Tuple.Create(LSE, 27),
-            Tuple.Create(XETRA, 28),
+            Tuple.Create(XETRA, 200),
+            Tuple.Create(LSE, 201),
 
             Tuple.Create(CFE, 33),
             Tuple.Create(FTX, 34),

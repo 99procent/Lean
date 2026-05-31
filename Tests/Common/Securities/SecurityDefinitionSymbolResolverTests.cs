@@ -25,6 +25,14 @@ namespace QuantConnect.Tests.Common.Securities
     [TestFixture]
     public class SecurityDefinitionSymbolResolverTests
     {
+        private const string SpylIsin = "IE000XZSV718";
+        private const string SpylLseSecurityIdentifier = "SPYL YD58KXUSU2YT";
+        private const string SpylXetraSecurityIdentifier = "SPYL YD494UHMRBQ9";
+        private const string SpylLseSedol = "BRJ9Z23";
+        private const string SpylXetraSedol = "BRJ9NN0";
+        private const string SpylLseCompositeFigi = "BBG01JRJ2MD1";
+        private const string SpylXetraCompositeFigi = "BBG01JRJ1852";
+
         private DirectoryInfo _testingDataDirectory;
         private SecurityDefinitionSymbolResolver _instance;
         private static readonly Dictionary<string, string> _tickerToSecurityIdentifier = new Dictionary<string, string>
@@ -50,7 +58,9 @@ namespace QuantConnect.Tests.Common.Securities
                 "AAPL R735QTJ8XC9X,03783310,BBG000B9XRY4,2046251,US0378331005,320193",
                 "GOOG T1AZ164W5VTX,38259P50,BBG000BHSKN9,B020QX2,US38259P5089,",
                 "GOOCV VP83T1ZUHROL,38259P70,BBG002W96FT9,BKM4JZ7,US38259P7069,",
-                "QQQ RIWIV7K5Z9LX,73935A10,BBG000BSWKH7,BDQYP67,US46090E1038,");
+                "QQQ RIWIV7K5Z9LX,73935A10,BBG000BSWKH7,BDQYP67,US46090E1038,",
+                $"{SpylXetraSecurityIdentifier},,{SpylXetraCompositeFigi},{SpylXetraSedol},{SpylIsin},",
+                $"{SpylLseSecurityIdentifier},,{SpylLseCompositeFigi},{SpylLseSedol},{SpylIsin},");
             File.WriteAllText(securityDatabaseFilePath,securityDatabaseLines);
         }
 
@@ -277,11 +287,27 @@ namespace QuantConnect.Tests.Common.Securities
             Assert.AreEqual(expectedIsin, isin);
         }
 
+        [TestCase(SpylLseSecurityIdentifier, SpylLseSedol, SpylLseCompositeFigi)]
+        [TestCase(SpylXetraSecurityIdentifier, SpylXetraSedol, SpylXetraCompositeFigi)]
+        public void ResolvesVenueSpecificIdentifiersFromSpylSymbols(string sid, string expectedSedol, string expectedCompositeFigi)
+        {
+            var symbol = CreateSymbol(sid);
+
+            Assert.AreEqual(expectedSedol, _instance.SEDOL(symbol));
+            Assert.AreEqual(expectedCompositeFigi, _instance.CompositeFIGI(symbol));
+            Assert.AreEqual(SpylIsin, _instance.ISIN(symbol));
+        }
+
         private static void AssertSymbol(Symbol actual, string expectedTicker, string expectedSid, string expectedMarket)
         {
             Assert.AreEqual(expectedTicker, actual?.Value);
             Assert.AreEqual(expectedSid, actual?.ID.ToString());
             Assert.AreEqual(expectedMarket, actual?.ID.Market ?? expectedMarket);
+        }
+
+        private static Symbol CreateSymbol(string sid, string ticker = "SPYL")
+        {
+            return new Symbol(SecurityIdentifier.Parse(sid), ticker);
         }
 
         private static void AssertSymbolIdentifier(Symbol symbol, string reconvertedIdentifier, string expectedIdentifier)
