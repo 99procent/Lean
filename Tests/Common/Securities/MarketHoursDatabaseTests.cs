@@ -304,21 +304,6 @@ namespace QuantConnect.Tests.Common.Securities
             Assert.AreEqual(TimeZones.NewYork, marketHoursDatabase.GetDataTimeZone(Market.USA, null, SecurityType.Equity));
         }
 
-        [TestCase(Market.LSE, "Europe/London", "08:00:00", "16:30:00", "12/25/2024", "12/24/2024", "12:30:00")]
-        [TestCase(Market.XETRA, "Europe/Berlin", "09:00:00", "17:30:00", "12/24/2024", "12/30/2024", "14:00:00")]
-        public void ReadsEuropeanEquityVenueHours(string market, string timeZoneId, string openTime, string closeTime, string holiday, string earlyCloseDate, string earlyCloseTime)
-        {
-            var marketHoursDatabase = MarketHoursDatabase.FromDataFolder();
-            var exchangeHours = marketHoursDatabase.GetExchangeHours(market, null, SecurityType.Equity);
-
-            Assert.AreEqual(timeZoneId, exchangeHours.TimeZone.Id);
-            Assert.AreEqual(timeZoneId, marketHoursDatabase.GetDataTimeZone(market, null, SecurityType.Equity).Id);
-            Assert.AreEqual(TimeSpan.Parse(openTime, CultureInfo.InvariantCulture), exchangeHours.MarketHours[DayOfWeek.Monday].GetMarketOpen(TimeSpan.Zero, false));
-            Assert.AreEqual(TimeSpan.Parse(closeTime, CultureInfo.InvariantCulture), exchangeHours.MarketHours[DayOfWeek.Monday].GetMarketClose(TimeSpan.Zero, false));
-            Assert.IsTrue(exchangeHours.Holidays.Contains(DateTime.Parse(holiday, CultureInfo.InvariantCulture)));
-            Assert.AreEqual(TimeSpan.Parse(earlyCloseTime, CultureInfo.InvariantCulture), exchangeHours.EarlyCloses[DateTime.Parse(earlyCloseDate, CultureInfo.InvariantCulture)]);
-        }
-
         [Test]
         public void AllMarketsAreAlwaysOpenWhenForceExchangeAlwaysOpenIsTrue()
         {

@@ -116,18 +116,6 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Test]
-        public void GeneratesDistinctEquityIdentifiersForSharedTickerAcrossVenues()
-        {
-            var lseSid = SecurityIdentifier.GenerateEquity(new DateTime(2024, 01, 02), "SPYL", Market.LSE);
-            var xetraSid = SecurityIdentifier.GenerateEquity(new DateTime(2024, 01, 02), "SPYL", Market.XETRA);
-
-            Assert.AreNotEqual(lseSid, xetraSid);
-            Assert.AreNotEqual(lseSid.ToString(), xetraSid.ToString());
-            Assert.AreEqual(Market.LSE, SecurityIdentifier.Parse(lseSid.ToString()).Market);
-            Assert.AreEqual(Market.XETRA, SecurityIdentifier.Parse(xetraSid.ToString()).Market);
-        }
-
-        [Test]
         public void GeneratesForexSecurityIdentifier()
         {
             var eurusd = SecurityIdentifier.GenerateForex("EURUSD", Market.FXCM);

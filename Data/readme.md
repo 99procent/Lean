@@ -30,6 +30,11 @@ The `marketName` value is used to separate different tradable assets with the sa
 
 For equities, the same venue key must be used consistently across price files, `map_files`, `factor_files`, `market-hours-database.json`, `symbol-properties-database.csv`, and any matching `security-database.csv` rows. This is how LEAN distinguishes venue-specific listings that share a ticker, such as `SPYL` on `lse` and `xetra`. When a listing shares an ISIN across venues, use venue-specific identifiers such as SEDOL or composite FIGI for unambiguous resolution.
 
+When running against unmodified official LEAN source, venue keys that are not built in must be registered at algorithm startup before symbol generation/resolution. For example:
+
+`Market.Add("xetra", 200);`
+`Market.Add("lse", 201);`
+
 ### Core Data Types
 
 LEAN has a few core data types represented in all the asset classes we support. Below are links to their implementation in LEAN.
