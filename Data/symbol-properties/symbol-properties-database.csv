@@ -202,6 +202,10 @@ interactivebrokers,ZARJPY,cfd,ZAR/JPY,JPY,1,0.00005,1
 usa,[*],option,,USD,100,0.01,1
 
 usa,[*],equity,,USD,1,0.01,1
+lse,[*],equity,,GBP,1,0.01,1
+lse,SPYL,equity,SPDR S&P 500 UCITS ETF,USD,1,0.01,1
+xetra,[*],equity,,EUR,1,0.01,1
+xetra,SPYL,equity,SPDR S&P 500 UCITS ETF,EUR,1,0.01,1
 
 usa,[*],index,,USD,1,0.01,1
 usa,[*],indexoption,,USD,100,0.05,1

@@ -61,6 +61,8 @@ namespace QuantConnect
             Tuple.Create(SGX, 24),
             Tuple.Create(HKFE, 25),
             Tuple.Create(NYSELIFFE, 26),
+            Tuple.Create(XETRA, 200),
+            Tuple.Create(LSE, 201),
 
             Tuple.Create(CFE, 33),
             Tuple.Create(FTX, 34),
@@ -145,6 +147,16 @@ namespace QuantConnect
         /// NSE - National Stock Exchange
         /// </summary>
         public const string India = "india";
+
+        /// <summary>
+        /// London Stock Exchange
+        /// </summary>
+        public const string LSE = "lse";
+
+        /// <summary>
+        /// Deutsche Borse XETRA
+        /// </summary>
+        public const string XETRA = "xetra";
 
         /// <summary>
         /// Comex

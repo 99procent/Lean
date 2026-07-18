@@ -1,2 +1,8 @@
-# These are just some fake values we can use for testing and running regression algorithms
+# These are test/regression values. Some identifiers are synthetic placeholders, while
+# SPYL uses the real venue-specific composite FIGIs for lse and xetra.
+# Duplicate identifiers currently resolve via FirstOrDefault in SecurityDefinitionSymbolResolver.
+# Keep shared-ISIN rows in deterministic order. SPYL keeps xetra before lse so bare ISIN
+# lookups stay canonical, while SEDOL and composite FIGI remain venue-specific.
 AAPL R735QTJ8XC9X,03783310,BBG000B9XRY4,2046251,US0378331005,320193
+SPYL YD494UHMRBQ9,,BBG01JRJ1852,BRJ9NN0,IE000XZSV718,
+SPYL YD58KXUSU2YT,,BBG01JRJ2MD1,BRJ9Z23,IE000XZSV718,

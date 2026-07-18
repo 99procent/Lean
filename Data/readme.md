@@ -22,7 +22,13 @@ Data files are separated and nested in a few predictable layers:
 - Hour, Daily Financial Data:
 `/data/securityType/marketName/resolution/ticker.zip`
 
+- Equity auxiliary data:
+`/data/equity/marketName/map_files/ticker.csv`
+`/data/equity/marketName/factor_files/ticker.csv`
+
 The `marketName` value is used to separate different tradable assets with the same ticker. E.g. EURUSD is traded on multiple brokerages all with slightly different prices.
+
+For equities, the same venue key must be used consistently across price files, `map_files`, `factor_files`, `market-hours-database.json`, `symbol-properties-database.csv`, and any matching `security-database.csv` rows. This is how LEAN distinguishes venue-specific listings that share a ticker, such as `SPYL` on `lse` and `xetra`. When a listing shares an ISIN across venues, use venue-specific identifiers such as SEDOL or composite FIGI for unambiguous resolution.
 
 ### Core Data Types
 

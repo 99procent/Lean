@@ -104,6 +104,34 @@ namespace QuantConnect.Tests.Common.Securities
             Assert.AreEqual(defaultSymbolProperties.LotSize, 1);
         }
 
+        [Test]
+        public void LoadsEuropeanEquityQuoteCurrenciesByVenue()
+        {
+            var db = SymbolPropertiesDatabase.FromDataFolder();
+
+            var lseSpyl = Symbol.Create("SPYL", SecurityType.Equity, Market.LSE);
+            var xetraSpyl = Symbol.Create("SPYL", SecurityType.Equity, Market.XETRA);
+            var lseDefault = Symbol.Create("VOD", SecurityType.Equity, Market.LSE);
+            var xetraDefault = Symbol.Create("SAP", SecurityType.Equity, Market.XETRA);
+
+            Assert.AreEqual("USD", db.GetSymbolProperties(Market.LSE, lseSpyl, SecurityType.Equity, "GBP").QuoteCurrency);
+            Assert.AreEqual("EUR", db.GetSymbolProperties(Market.XETRA, xetraSpyl, SecurityType.Equity, "EUR").QuoteCurrency);
+            Assert.AreEqual("GBP", db.GetSymbolProperties(Market.LSE, lseDefault, SecurityType.Equity, "GBP").QuoteCurrency);
+            Assert.AreEqual("EUR", db.GetSymbolProperties(Market.XETRA, xetraDefault, SecurityType.Equity, "EUR").QuoteCurrency);
+        }
+
+        [TestCase(Market.LSE)]
+        [TestCase(Market.XETRA)]
+        public void EuropeanEquitySymbolPropertiesContainWildcardAndVenueSpecificRows(string market)
+        {
+            var db = SymbolPropertiesDatabase.FromDataFolder();
+
+            var spList = db.GetSymbolPropertiesList(market, SecurityType.Equity).ToList();
+
+            Assert.IsTrue(spList.Any(x => x.Key.Symbol == "[*]"));
+            Assert.IsTrue(spList.Any(x => x.Key.Symbol == "SPYL"));
+        }
+
         [TestCase(Market.FXCM, SecurityType.Forex)]
         [TestCase(Market.Oanda, SecurityType.Forex)]
         [TestCase(Market.Coinbase, SecurityType.Crypto)]
